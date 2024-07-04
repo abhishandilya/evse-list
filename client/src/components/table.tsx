@@ -22,6 +22,7 @@ export function Table({
   dense = false,
   grid = false,
   striped = false,
+  tableId,
   className,
   children,
   ...props
@@ -30,6 +31,7 @@ export function Table({
   dense?: boolean;
   grid?: boolean;
   striped?: boolean;
+  tableId?: string;
 } & React.ComponentPropsWithoutRef<"div">) {
   return (
     <TableContext.Provider
@@ -53,7 +55,10 @@ export function Table({
               !bleed && "sm:px-[--gutter]"
             )}
           >
-            <table className="min-w-full text-left text-sm/6 text-zinc-950 dark:text-white">
+            <table
+              className="min-w-full text-left text-sm/6 text-zinc-950 dark:text-white"
+              id={tableId}
+            >
               {children}
             </table>
           </div>

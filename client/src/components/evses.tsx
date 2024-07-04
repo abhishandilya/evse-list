@@ -1,3 +1,5 @@
+import DataTable from "datatables.net-dt";
+import { useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -18,8 +20,21 @@ export type EVSE = {
 };
 
 export function EvseTable({ evses }: { evses: EVSE[] }) {
+  useEffect(() => {
+    try {
+      const table = new DataTable("#evseTable", {
+        paging: false,
+        searching: false,
+      });
+      return () => {
+        table.destroy();
+      };
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
   return (
-    <Table grid={true} striped={true} id="evseTable">
+    <Table grid={true} striped={true} tableId="evseTable">
       <TableHead>
         <TableRow>
           <TableHeader>Vendor</TableHeader>
@@ -35,11 +50,10 @@ export function EvseTable({ evses }: { evses: EVSE[] }) {
             <TableCell>{evse.vendor}</TableCell>
             <TableCell>{evse.model}</TableCell>
             <TableCell>{evse.outputType}</TableCell>
-            <TableCell>{evse.maxCurrent}</TableCell>
+            <TableCell>{evse.maxCurrent || ""}</TableCell>
             <TableCell>
-              {evse.maxOutputPowerWatts ? evse.maxOutputPowerWatts / 1000 : ""}
+              {evse.maxOutputPowerWatts ? evse.maxOutputPowerWatts * 1e-3 : ""}
             </TableCell>
-            <TableCell></TableCell>
           </TableRow>
         ))}
       </TableBody>
